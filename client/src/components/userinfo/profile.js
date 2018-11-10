@@ -7,16 +7,16 @@ class Profile extends Component {
 
   componentDidMount() {
     if (!this.props.initialValues) {
-      this.props.fetchProfile();  // fetch profile
+      this.props.fetchProfile();
     }
   }
 
   componentWillUnmount() {
-    this.props.clearProfile();  // clear the redux state (userinfo) when this component will unmount
+    this.props.clearProfile();
   }
 
-  handleFormSubmit({ firstName, lastName, birthday, sex, phone, address, occupation, description }) {
-    this.props.updateProfile({ firstName, lastName, birthday, sex, phone, address, occupation, description }, (path, state) => {  // callback: history replace
+  handleFormSubmit({ firstName, lastName }) {
+    this.props.updateProfile({ firstName, lastName }, (path, state) => {
       this.props.history.replace(path, state);
     });
   }
@@ -69,7 +69,7 @@ class Profile extends Component {
 
   render() {
 
-    if (!this.props.initialValues) {  // if the initialValues is null, render <div>Loading...</div>
+    if (!this.props.initialValues) {
       return <div>Loading...</div>
     }
 
@@ -79,17 +79,11 @@ class Profile extends Component {
       <div>
         { this.renderAlert() }
         <form className="form-profile" onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-          <h3>Profile</h3>
+          <h3>BRO</h3>
           <hr />
           <Field name="email" component={this.renderInput} type="email" label="Email:" disabled={true} />
           <Field name="firstName" component={this.renderInput} type="text" label="First Name:" required={true} />
           <Field name="lastName" component={this.renderInput} type="text" label="Last Name:" required={true} />
-          <Field name="birthday" component={this.renderInput} type="date" label="Birthday:" />
-          <Field name="sex" component={this.renderOptions} label="Sex:" />
-          <Field name="phone" component={this.renderInput} type="text" label="Phone:" />
-          <Field name="address" component={this.renderInput} type="text" label="Address:" />
-          <Field name="occupation" component={this.renderInput} type="text" label="Occupation:" />
-          <Field name="description" component={this.renderTextarea} label="Description:" />
           <button action="submit" className="btn btn-primary">Update Profile</button>
         </form>
       </div>
@@ -97,19 +91,15 @@ class Profile extends Component {
   }
 }
 
-/*
-function validate(formProps) {
-  console.log(formProps);
-}
-*/
+
 
 Profile = reduxForm({
-  form: 'profile',  // name of the form
-  // validate: validate,
+  form: 'profile',
+
 })(Profile);
 
 function mapStateToProps(state) {
-  return { initialValues: state.profile.user };  // set initial values for the form
+  return { initialValues: state.profile.user };
 }
 
 export default connect(mapStateToProps, { fetchProfile, clearProfile, updateProfile })(Profile);

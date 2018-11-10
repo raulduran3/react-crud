@@ -12,13 +12,13 @@ export default function(ComposedComponent) {
 
     componentWillMount() {
       if (!this.props.authenticated) {
-        this.context.router.history.replace('/signin', { time: new Date().toLocaleString(), message: 'Please sign in first.'});
+        this.context.router.history.replace('/signin', { time: new Date().toLocaleString(), message: 'Please sign in first bro'});
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
-        this.context.router.history.replace('/signin', { time: new Date().toLocaleString(), message: 'Please sign in first.'});
+        this.context.router.history.replace('/signin', { time: new Date().toLocaleString(), message: 'Please sign in first bro'});
       }
     }
 

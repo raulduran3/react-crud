@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import NoMatch from '../../nomatch';
 import PostBody from './post_body';
-import Comments from './comments';
-import CommentNew from './comment_new';
 import PostEdit from './post_edit';
-
 import { fetchPost, checkAuthority, deletePost } from '../../../actions';
 
 class PostDetail extends Component {
@@ -109,9 +105,7 @@ class PostDetail extends Component {
       <div  className="post">
         <PostBody post={this.props.post} />
         {this.renderUpdateAndDeleteButton()}
-      
         {this.renderDeleteConfirmModal()}
-
       </div>
     );
   }

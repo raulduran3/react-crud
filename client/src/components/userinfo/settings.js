@@ -6,7 +6,7 @@ import { changePassword } from '../../actions/index';
 class Settings extends Component {
 
   handleFormSubmit({ oldPassword, newPassword }) {
-    this.props.changePassword({ oldPassword, newPassword }, (path, state) => {  // callback: history replace
+    this.props.changePassword({ oldPassword, newPassword }, (path, state) => {
       this.props.history.replace(path, state);
     });
   }
@@ -27,17 +27,14 @@ class Settings extends Component {
 
       return (
         <div className={`alert ${state.status === 'success' ? 'alert-success' : 'alert-danger'}`} role="alert">
-          {`[${state.time}] --- `} <strong>{state.status === 'success' ? 'Congratulations!' : 'Oops!'}</strong> {state.message}
+          {`[${state.time}] --- `} <strong>{state.status === 'success' ? 'Congratulations Bro!' : 'Oops Dog!'}</strong> {state.message}
         </div>
       );
     }
   }
 
   render() {
-    // these properties comes from ReduxForm
     const { handleSubmit } = this.props;
-
-    // when do we need .bind(this)?
     return (
       <div>
         {this.renderAlert()}
@@ -56,8 +53,6 @@ class Settings extends Component {
 
 function validate(formProps) {
 
-  // console.log(formProps);
-
   const errors = {};
 
   if (formProps.newPassword !== formProps.newPasswordConfirm) {
@@ -68,7 +63,7 @@ function validate(formProps) {
 }
 
 Settings = reduxForm({
-  form: 'settings',  // name of the form
+  form: 'settings', 
   validate: validate,
 })(Settings);
 

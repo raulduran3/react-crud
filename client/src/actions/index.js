@@ -16,8 +16,6 @@ import {
 
   CHECK_AUTHORITY,
 
-  CREATE_COMMENT,
-  FETCH_COMMENTS,
 } from './types';
 
 const ROOT_URL = '/api';
@@ -106,18 +104,13 @@ export function clearProfile() {
   return { type: CLEAR_PROFILE };
 }
 
-export function updateProfile({ firstName, lastName, birthday, sex, phone, address, occupation, description }, historyReplace) {
+export function updateProfile({ firstName, lastName }, historyReplace) {
 
   return function(dispatch) {
     axios.put(`${ROOT_URL}/profile`, {
         firstName,
         lastName,
-        birthday,
-        sex,
-        phone,
-        address,
-        occupation,
-        description,
+        
       }, {
         headers: {authorization: localStorage.getItem('token')},
       }
@@ -289,50 +282,6 @@ export function fetchPostsByUserId() {
 
 
 
-export function createComment({ comment, postId }, clearTextEditor, historyReplace) {
-
-  return function(dispatch) {
-    axios.post(`${ROOT_URL}/comments/${postId}`, { content: comment }, {
-      headers: {authorization: localStorage.getItem('token')},
-    })
-      .then((response) => {
-        dispatch({
-          type: CREATE_COMMENT,
-          payload: response.data,
-        });
-        dispatch(reset('comment_new'));
-        clearTextEditor();
-        historyReplace(`/posts/${postId}`, null);
-      })
-      .catch(({response}) => {
-
-
-        if (!response.data.message) {
-          return historyReplace(`/posts/${postId}`, {
-            time: new Date().toLocaleString(),
-            message: 'You must sign in before you can post new comment.',
-          });
-        }
-
-        historyReplace(`/posts/${postId}`, {
-          time: new Date().toLocaleString(),
-          message: response.data.message,
-        });
-      });
-  }
-}
-
-export function fetchComments(postId) {
-
-  return function(dispatch) {
-    axios.get(`${ROOT_URL}/comments/${postId}`).then((response) => {
-      dispatch({
-        type: FETCH_COMMENTS,
-        payload: response.data,
-      });
-    });
-  }
-}
 
 
 export function checkAuthority(postId) {
@@ -345,7 +294,7 @@ export function checkAuthority(postId) {
         type: CHECK_AUTHORITY,
         payload: response.data.allowChange,
       });
-    }).catch(() => {  
+    }).catch(() => {
       dispatch({
         type: CHECK_AUTHORITY,
         payload: false,
